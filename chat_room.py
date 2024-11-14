@@ -16,7 +16,7 @@ class ChatRoom:
     def remove_user(self, user):
         if user in self.users:
             self.users.remove(user)
-            return "User logout"
+            return "User kicked"
         return "User isn't here"
 
     def list_users(self):
