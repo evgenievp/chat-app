@@ -24,3 +24,9 @@ class ChatRoom:
         for user in self.users:
             res += f"{user.username}\n"
         return res
+
+    def get_user(self, n):
+        for i in range(len(self.users)):
+            if n == i:
+                return self.users[i]
+        return None
