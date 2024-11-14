@@ -1,0 +1,99 @@
+import re
+from message import Message
+
+
+class User:
+    def __init__(self, username, mail, password):
+        self.username = username
+        self.mail = mail
+        self.password = password
+        self.contacts = []
+        self.chat_room = None
+        self.messages = []
+
+    @property
+    def username(self):
+        return self.__username
+
+    @username.setter
+    def username(self, value):
+        if value.strip() == "" or len(value) < 6:
+            raise ValueError("Username can't be less than 6 symbols or empty spaces")
+        if not value.isalpha():
+            raise ValueError("Username can't be only numbers")
+        self.__username = value
+
+    @property
+    def mail(self):
+        return self.__mail
+
+    @mail.setter
+    def mail(self, value):
+        re_pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+        if re.match(re_pattern, value):
+            self.__mail = value
+        else:
+            raise ValueError("Email has to contain only letters and digits")
+
+    @property
+    def password(self):
+        return self.__password
+
+    @password.setter
+    def password(self, value):
+        value = str(value)
+        if len(value) < 6 or len(value) > 30:
+            raise ValueError("Password shall be long at least 6 symbols and less than 30")
+        self.__password = value
+
+    def add_contact(self, contact):
+        if contact not in self.contacts:
+            self.contacts.append(contact)
+            return f"{contact} successful added."
+        return f"Contact already in contacts list"
+
+    def find_contact(self, contact):
+        for contact in self.contacts:
+            if contact.username == contact:
+                return contact
+        return f"Contact {contact} not in list."
+
+    def remove_contact(self, contact):
+        for contact in self.contacts:
+            if contact.username == contact:
+                self.contacts.remove(contact)
+                return f"{contact} successful removed"
+        return f"Contact {contact} not in list."
+
+    def sort_ascending_contacts(self):
+        if len(self.contacts) == 0:
+            return "No contacts to sort."
+        self.contacts.sort()
+        res = ""
+        for contact in self.contacts:
+            res += f"Contact {contact.username} {contact.email}\n"
+        return res
+
+    def sort_descending_contacts(self):
+        if len(self.contacts) == 0:
+            return "No contacts to sort."
+        res = ''
+        self.contacts.sort(reverse=True)
+        for contact in self.contacts:
+            res += f"Contact {contact.username} {contact.email}\n"
+        return res
+
+    def write_message(self, contact, content, room):
+        self.chat_room = room
+        message = Message(__class__, contact, content)
+        room.add_message(contact, message)
+
+    def enter_room(self, room):
+        self.chat_room = room
+        room.add_user(self)
+
+    def display_message(self):
+        if not self.messages:
+            return "Nothing here."
+        message = self.messages.pop()
+        return f"{message.content} from: {message.sender} at: {message.datetime}"
