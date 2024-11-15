@@ -16,9 +16,9 @@ class User:
     @username.setter
     def username(self, value):
         if value.strip() == "" or len(value) < 6:
-            raise ValueError("Username can't be less than 6 symbols or empty spaces")
+            print("Username can't be less than 6 symbols or empty spaces")
         if not value.isalpha():
-            raise ValueError("Username can't be only numbers")
+            print("Username can't be only numbers")
         self.__username = value
 
     @property
@@ -29,7 +29,7 @@ class User:
     def password(self, value):
         value = str(value)
         if len(value) < 6 or len(value) > 30:
-            raise ValueError("Password shall be long at least 6 symbols and less than 30")
+            print("Password shall be long at least 6 symbols and less than 30")
         self.__password = value
 
     def add_contact(self, contact):

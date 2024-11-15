@@ -35,20 +35,27 @@ class Main:
                 n = int(input())
                 room = self.rooms[n]
                 user.enter_room(room)
+                room.add_user(user)
                 print(f"Entered room №: {n}")
             elif action == 2:
-                if room:
-                    room.list_users()
-                else:
+                if user.chat_room is None:
                     print("You are not in room.")
+                else:
+                    user.chat_room.list_users()
             elif action == 3:
-                user.chat_room = None
+                user.leave_room()
             elif action == 4:
-                room.list_users()
+                user.chat_room.list_users()
                 print("To who? (enter num)")
                 n = int(input())
+                room = user.chat_room
                 to = room.get_user(n)
-                user.write_message(to)
+                if to is None:
+                    print("Cant write to nobody.")
+                    continue
+                else:
+                    message = input("Enter your message here.")
+                    user.write_message(to, message, room)
             elif action == 5:
                 return self.main_loop()
         return flag
@@ -66,8 +73,12 @@ class Main:
             user = {
                 'username': '',
             }
+        if user.chat_room:
+            text = "leave"
+        else:
+            text = "enter"
         print(f"""Welcome. {user.username}
-    If you want to enter room: press 1.
+    If you want to {text} room: press 1.
     For list room users, press 2.
     For exit room press 3.
     For send message, press 4.
@@ -86,7 +97,6 @@ class Main:
     def main_loop(self):
         self.welcome()
         flag = False
-        user = None
         while not flag:
             action = int(input().strip())
             if action == 1:
@@ -108,7 +118,6 @@ class Main:
 
     def get_room_next_num(cls):
         num = cls.NEXT_ROOM
-        instance_room = f"room{num}"
         instance_room = ChatRoom()
         cls.NEXT_ROOM += 1
         return instance_room
@@ -116,7 +125,7 @@ class Main:
     def display_rooms(self):
         res = ""
         for i in range(len(self.rooms)):
-            res += f"{i}: {self.rooms[i]}"
+            res += f"Room: {i}: num: {self.rooms[i].num-1}"
         return res
 
 
