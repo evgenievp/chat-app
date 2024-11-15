@@ -14,9 +14,8 @@ class Main:
 
     def register(self):
         username = input("Username should be at least 6 symbols long: ").strip()
-        email = input("Email can't contain only digits or non alphabetical symbols: ").strip()
         password = input("Password: ")
-        user = User(username, email, password)
+        user = User(username, password)
         self.users.append(user)
         return user
 
@@ -30,12 +29,11 @@ class Main:
         while not flag:
             self.user_info(user)
             action = input().strip()
-            room = None
             action = int(action)
             if action == 1:
                 print(f"Select room: {self.display_rooms()}")
                 n = int(input())
-                room = self.rooms[n - 1]
+                room = self.rooms[n]
                 user.enter_room(room)
                 print(f"Entered room №: {n}")
             elif action == 2:

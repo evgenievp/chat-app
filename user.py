@@ -1,11 +1,9 @@
-import re
 from message import Message
 
 
 class User:
-    def __init__(self, username, mail, password):
+    def __init__(self, username, password):
         self.username = username
-        self.mail = mail
         self.password = password
         self.contacts = []
         self.chat_room = None
@@ -22,18 +20,6 @@ class User:
         if not value.isalpha():
             raise ValueError("Username can't be only numbers")
         self.__username = value
-
-    @property
-    def mail(self):
-        return self.__mail
-
-    @mail.setter
-    def mail(self, value):
-        re_pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-        if re.match(re_pattern, value):
-            self.__mail = value
-        else:
-            raise ValueError("Email has to contain only letters and digits")
 
     @property
     def password(self):
