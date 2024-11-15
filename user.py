@@ -82,7 +82,7 @@ class User:
         if not self.messages:
             return "Nothing here."
         message = self.messages.pop()
-        return f"{message.content} from: {message.sender} at: {message.datetime}"
+        print(f"{message.content} from: {message.sender} at: {message.datetime}")
 
     def leave_room(self):
         if self.chat_room:

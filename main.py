@@ -1,6 +1,6 @@
 from chat_room import ChatRoom
 from user import User
-
+#hardcoded room
 room1 = ChatRoom()
 
 
@@ -58,6 +58,8 @@ class Main:
                     user.write_message(to, message, room)
             elif action == 5:
                 return self.main_loop()
+            elif action == 6:
+                user.display_message()
         return flag
 
     def welcome(self):
@@ -83,6 +85,7 @@ class Main:
     For exit room press 3.
     For send message, press 4.
     For logout press 5:
+    For open messages press 6:
     """)
 
     def login(self, username, password):
